@@ -20,7 +20,11 @@ def create_app():
     bcrypt.init_app(app)
 
     from api.events.routes import events_blueprint
+    from api.user.user_routes import user_blueprint
+    from api.auth.auth_routes import auth_blueprint
 
     app.register_blueprint(events_blueprint)
+    app.register_blueprint(user_blueprint)
+    app.register_blueprint(auth_blueprint)
 
     return app
