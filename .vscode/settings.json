@@ -1,0 +1,6 @@
+{
+  "search.exclude": {
+    "**/dj-events-backend": true,
+    "**/frontend/.next": true
+  }
+}
