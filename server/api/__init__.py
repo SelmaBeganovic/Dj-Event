@@ -1,11 +1,11 @@
 from flask import Flask
-# from flask_bcrypt import Bcrypt
+from flask_bcrypt import Bcrypt
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
 db = SQLAlchemy()
 migrate = Migrate()
-# bcrypt = Bcrypt()
+bcrypt = Bcrypt()
 
 
 def create_app():
@@ -17,7 +17,7 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app, db)
-    # bcrypt.init_app(app)
+    bcrypt.init_app(app)
 
     from api.events.routes import events_blueprint
     from api.user.user_routes import user_blueprint
