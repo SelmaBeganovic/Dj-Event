@@ -15,6 +15,10 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../app.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+    from api.commands.events import insert_events_into_database
+
+    app.cli.add_command(insert_events_into_database)
+
     db.init_app(app)
     migrate.init_app(app, db)
     bcrypt.init_app(app)

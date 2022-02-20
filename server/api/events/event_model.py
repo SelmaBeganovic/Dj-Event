@@ -8,7 +8,10 @@ class Event(db.Model):
     address = db.Column(db.String(128))
     slug = db.Column(db.String(128))
     performers = db.Column(db.String(128))
-    date = db.Column(db.Date())
+    date = db.Column(db.String(30), nullable=True)
     time = db.Column(db.String(20))
     description = db.Column(db.String(250))
     image = db.Column(db.String(250))
+
+    def __str__(self):
+        return f"{self.name}"
