@@ -15,3 +15,10 @@ class Event(db.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+        }

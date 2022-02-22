@@ -11,9 +11,8 @@ bcrypt = Bcrypt()
 def create_app():
     app = Flask(__name__)
 
-    # Replace with config file
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../app.db'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    # Create different config for different envs
+    app.config.from_object("api.config.DevelopmentConfig")
 
     from api.commands.events import insert_events_into_database
 
