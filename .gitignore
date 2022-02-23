@@ -1,2 +1,7 @@
 /server/venv/*
+/frontend/node_modules/*
+/frontend/.next/*
 *.pyc
+server/__pycache__/run.cpython-39.pyc
+server/api/events/__pycache__/event_model.cpython-39.pyc
+server/api/events/__pycache__/routes.cpython-39.pyc
