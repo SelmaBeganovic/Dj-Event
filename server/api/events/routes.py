@@ -18,6 +18,10 @@ def events():
         elif direction == "DESC":
             all_events_query = all_events_query.order_by(Event.__dict__[fild].desc())
 
+
+
+
+
     if limit := args.get("_limit", None):
         all_events_query = all_events_query.limit(int(limit))
 

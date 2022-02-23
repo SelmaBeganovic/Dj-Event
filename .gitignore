@@ -1,10 +1,8 @@
 /server/venv/*
 /frontend/node_modules/*
 /frontend/.next/*
-*.pyc
-server/__pycache__/run.cpython-39.pyc
-server/api/events/__pycache__/event_model.cpython-39.pyc
-server/api/events/__pycache__/routes.cpython-39.pyc
-__pycache__/*
 .DS_Store
 server/migrations/versions/__pycache__/30400ea486fb_initial_migration.cpython-39.pyc
+**.pyc
+__pycache__/
+server/api/events/__pycache__/
