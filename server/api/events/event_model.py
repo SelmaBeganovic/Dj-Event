@@ -14,7 +14,7 @@ class Event(db.Model):
     image = db.Column(db.String(250))
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.name} {self.date}"
 
     @property
     def serialize(self):
