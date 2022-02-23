@@ -8,7 +8,7 @@ class Event(db.Model):
     address = db.Column(db.String(128))
     slug = db.Column(db.String(128))
     performers = db.Column(db.String(128))
-    date = db.Column(db.String(30), nullable=True)
+    date = db.Column(db.Date())
     time = db.Column(db.String(20))
     description = db.Column(db.String(250))
     image = db.Column(db.String(250))
@@ -21,4 +21,7 @@ class Event(db.Model):
         return {
             'id': self.id,
             'name': self.name,
+            'date': self.date,
+            'time': self.time,
+            'slug': self.slug
         }

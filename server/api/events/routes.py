@@ -1,5 +1,5 @@
 from crypt import methods
-from flask import Blueprint, jsonify, make_response
+from flask import Blueprint, jsonify, request
 from api.events.event_model import Event
 
 events_blueprint = Blueprint("events", __name__)
@@ -7,5 +7,19 @@ events_blueprint = Blueprint("events", __name__)
 
 @events_blueprint.route("/events", methods=["GET"])
 def events():
-    all_events = Event.query.all()
+    all_events_query = Event.query
+    args = request.args
+
+    if sort_by := args.get("_sort", None):
+        fild, direction = sort_by.split(":")
+
+        if direction == "ASC":
+            all_events_query = all_events_query.order_by(Event.__dict__[fild].asc())
+        elif direction == "DESC":
+            all_events_query = all_events_query.order_by(Event.__dict__[fild].desc())
+
+    if limit := args.get("_limit", None):
+        all_events_query = all_events_query.limit(int(limit))
+
+    all_events = all_events_query.all()
     return jsonify([evt.serialize for evt in all_events])
