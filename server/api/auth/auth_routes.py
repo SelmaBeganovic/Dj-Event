@@ -11,7 +11,7 @@ auth_blueprint = Blueprint("auth", __name__)
 def login():
     user_data = request.get_json()
     try:
-        user = User.query.filter(User.email == user_data.get("email")).one()
+        user = User.query.filter(User.email == user_data.get("email")).first()
 
         if user and bcrypt.check_password_hash(
             user.password, user_data.get("password")
@@ -24,6 +24,7 @@ def login():
                             "status": "success",
                             "message": "Successfully logged in.",
                             "jwt": access_token,
+                            "statusCode": 200,
                         }
                     )
                 ),
@@ -32,13 +33,24 @@ def login():
         else:
             return (
                 make_response(
-                    jsonify({"status": "fail", "message": "User does not exist."})
+                    jsonify(
+                        {
+                            "status": "fail",
+                            "message": "User does not exist.",
+                            "statusCode": 500,
+                        }
+                    )
                 ),
                 404,
             )
     except Exception as e:
         print(e)
-        return make_response(jsonify({"status": "fail", "message": "Try again"})), 500
+        return (
+            make_response(
+                jsonify({"status": "fail", "message": "Try again", "statusCode": 500})
+            ),
+            500,
+        )
 
 
 @auth_blueprint.route("/auth/register", methods=["POST"])
