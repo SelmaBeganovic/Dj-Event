@@ -6,3 +6,5 @@ server/migrations/versions/__pycache__/30400ea486fb_initial_migration.cpython-39
 **.pyc
 __pycache__/
 server/api/events/__pycache__/
+server/migrations/__pycache__/
+server/database/__pycache__/
