@@ -21,7 +21,12 @@ class Event(db.Model):
         return {
             'id': self.id,
             'name': self.name,
+            'venue': self.venue,
+            'address': self.address,
+            'slug': self.slug,
+            'performers': self.performers,
             'date': self.date,
             'time': self.time,
-            'slug': self.slug
+            'description': self.description,
+            'image': self.image
         }

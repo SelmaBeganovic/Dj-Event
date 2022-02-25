@@ -10,6 +10,9 @@ def events():
     all_events_query = Event.query
     args = request.args
 
+    if slug := args.get('slug', None):
+        all_events_query = all_events_query.filter(Event.slug == slug)
+
     if sort_by := args.get("_sort", None):
         fild, direction = sort_by.split(":")
 
@@ -23,3 +26,8 @@ def events():
 
     all_events = all_events_query.all()
     return jsonify([evt.serialize for evt in all_events])
+
+
+@events_blueprint.route("/events/count", methods=['GET'])
+def count():
+    return jsonify({'total': Event.query.count()})
