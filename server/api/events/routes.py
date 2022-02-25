@@ -21,10 +21,11 @@ def events():
         elif direction == "DESC":
             all_events_query = all_events_query.order_by(Event.__dict__[fild].desc())
 
-    if limit := args.get("_limit", None):
-        all_events_query = all_events_query.limit(int(limit))
+    per_page = int(args.get("_limit", 5))
 
-    all_events = all_events_query.all()
+    start = int(args.get('_start', 1))
+    all_events = all_events_query.paginate(page=start, per_page=per_page, error_out=True).items
+
     return jsonify([evt.serialize for evt in all_events])
 
 
