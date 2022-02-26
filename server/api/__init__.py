@@ -30,7 +30,7 @@ def create_app():
         app,
     )
 
-    from api.events.routes import events_blueprint
+    from api.events.event_routes import events_blueprint
     from api.user.user_routes import user_blueprint
     from api.auth.auth_routes import auth_blueprint
 
