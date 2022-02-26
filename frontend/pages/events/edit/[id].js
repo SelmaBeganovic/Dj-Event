@@ -23,8 +23,9 @@ export default function EditEventPage({ evt, token }) {
     time: evt.time,
     description: evt.description,
   });
+
   const [imagePreview, setImagePreview] = useState(
-    evt.image ? evt.image.formats.thumbnail.url : null
+    evt.image ? evt.image : null
   );
   const [showModal, setShowModal] = useState(false);
 
@@ -70,9 +71,15 @@ export default function EditEventPage({ evt, token }) {
   };
 
   const imageUploaded = async (e) => {
-    const res = await fetch(`${API_URL}/events/${evt.id}`);
+    const res = await fetch(`${API_URL}/events/${evt.id}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     const data = await res.json();
-    setImagePreview(data.image.formats.thumbnail.url);
+
+    setImagePreview(data.image);
     setShowModal(false);
   };
 

@@ -50,6 +50,8 @@ export async function getServerSideProps({ req }) {
     },
   });
 
+  console.log(res);
+
   const events = await res.json();
 
   return {

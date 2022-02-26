@@ -1,6 +1,10 @@
 from distutils.debug import DEBUG
 from re import T
 
+import os
+
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 
 class Config(object):
     TESTING = False
@@ -17,6 +21,9 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     BCRYPT_LOG_ROUNDS = 5
     JWT_SECRET_KEY = "top_secrec_key"
+    SECRET_KEY = os.environ.get("SECRET_KEY")
+    UPLOAD_FOLDER = os.path.join(basedir, "static/uploads")
+    SERVER_NAME = "localhost:5000"
 
 
 class TestingConfig(Config):

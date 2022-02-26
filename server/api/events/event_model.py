@@ -1,4 +1,5 @@
 from api import db
+from api.events.event_util import create_image_url
 
 
 class Event(db.Model):
@@ -32,5 +33,5 @@ class Event(db.Model):
             "date": self.date,
             "time": self.time,
             "description": self.description,
-            "image": self.image,
+            "image": create_image_url(self.image),
         }
