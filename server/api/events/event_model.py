@@ -12,6 +12,10 @@ class Event(db.Model):
     time = db.Column(db.String(20))
     description = db.Column(db.String(250))
     image = db.Column(db.String(250))
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("user.id"), index=True, nullable=False
+    )
+    user = db.relationship("User", uselist=False, backref=db.backref("events"))
 
     def __str__(self):
         return f"{self.name} {self.date}"
@@ -19,14 +23,14 @@ class Event(db.Model):
     @property
     def serialize(self):
         return {
-            'id': self.id,
-            'name': self.name,
-            'venue': self.venue,
-            'address': self.address,
-            'slug': self.slug,
-            'performers': self.performers,
-            'date': self.date,
-            'time': self.time,
-            'description': self.description,
-            'image': self.image
+            "id": self.id,
+            "name": self.name,
+            "venue": self.venue,
+            "address": self.address,
+            "slug": self.slug,
+            "performers": self.performers,
+            "date": self.date,
+            "time": self.time,
+            "description": self.description,
+            "image": self.image,
         }

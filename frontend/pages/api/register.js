@@ -19,10 +19,6 @@ export default async (req, res) => {
 
     const data = await strapiRes.json();
 
-    console.log("Nermin");
-    console.log(data);
-    console.log(strapiRes);
-
     if (strapiRes.ok) {
       // Set Cookie
       res.setHeader(

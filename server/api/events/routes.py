@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from api.events.event_model import Event
 from api.user.user_model import User
+from api.events.event_service import EventService
 
 from flask_jwt_extended import jwt_required, get_jwt_identity
 

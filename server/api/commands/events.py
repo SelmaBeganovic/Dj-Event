@@ -1,13 +1,16 @@
 import click
 from flask.cli import with_appcontext
-from datetime import datetime
 
 
 @click.command()
 @with_appcontext
 def insert_events_into_database():
+    import random
+    from datetime import datetime
     from api.events.event_model import Event
+    from api.user.user_model import User
     from api import db
+
     events = [
         {
             "id": "1",
@@ -19,7 +22,7 @@ def insert_events_into_database():
             "date": "06-09-2021",
             "time": "10:00 PM EST",
             "description": "Featuring deep cuts, party anthems and remixes nostalgic songs from two of the best decades of music with the very best music from the 90's and 2000's",
-            "image": "/images/sample/event1.jpg"
+            "image": "/images/sample/event1.jpg",
         },
         {
             "id": "2",
@@ -31,7 +34,7 @@ def insert_events_into_database():
             "date": "06-02-2021",
             "time": "8:00 PM EST",
             "description": "It's looking more and more like we will be seeing events return in the summer! To celebrate this we are arranging a festival experience to say good bye to lock down! We will also be celebrating the fact Zoom Dance is one year old!",
-            "image": "/images/sample/event2.jpg"
+            "image": "/images/sample/event2.jpg",
         },
         {
             "id": "3",
@@ -43,7 +46,7 @@ def insert_events_into_database():
             "date": "06-11-2021",
             "time": "7:00 PM EST",
             "description": "Who is ready to party? I mean in the middle of the water, a boat with good music and drinks. If thats you then you have made it to the right place.",
-            "image": "/images/sample/event3.jpg"
+            "image": "/images/sample/event3.jpg",
         },
         {
             "id": "4",
@@ -55,7 +58,7 @@ def insert_events_into_database():
             "date": "06-20-2021",
             "time": "10:00 PM EST",
             "description": "The most diverse dj on the east coast, DJ RNB team up once again to bring you the next installment in the high energy, Jam Concert Live series!",
-            "image": "/images/sample/event4.jpg"
+            "image": "/images/sample/event4.jpg",
         },
         {
             "id": "5",
@@ -67,7 +70,7 @@ def insert_events_into_database():
             "date": "06-30-2021",
             "time": "8:00 PM EST",
             "description": "With bands from around the UK ready to send the roof into orbit, get ready for the loudest Welsh festival: the inaugural UnMute 2021.",
-            "image": "/images/sample/event5.jpg"
+            "image": "/images/sample/event5.jpg",
         },
         {
             "id": "6",
@@ -79,16 +82,29 @@ def insert_events_into_database():
             "date": "06-02-2021",
             "time": "8:00 PM EST",
             "description": "Dope party which features Hip Hop legends, emerging artists and world-class turntablists",
-            "image": "/images/sample/event6.jpg"
-        }
+            "image": "/images/sample/event6.jpg",
+        },
     ]
+    users = User.query.all()
+
+    if len(users) < 1:
+        users = [User(id=-1)]
+
     for evt in events:
         existing_event = Event.query.filter(Event.name == evt.get("name")).one_or_none()
         if existing_event is None:
-            new_event = Event(name=evt.get("name"), venue=evt.get("venue"), slug=evt.get("slug"),
-                              address=evt.get("address"), performers=evt.get("performers"),
-                              date=datetime.strptime(evt.get("date"), '%m-%d-%Y'),
-                              time=evt.get("time"), description=evt.get("description"))
+            user = random.choice(users)
+            new_event = Event(
+                name=evt.get("name"),
+                venue=evt.get("venue"),
+                slug=evt.get("slug"),
+                address=evt.get("address"),
+                performers=evt.get("performers"),
+                date=datetime.strptime(evt.get("date"), "%m-%d-%Y"),
+                time=evt.get("time"),
+                description=evt.get("description"),
+                user_id=user.id,
+            )
 
             db.session.add(new_event)
             db.session.commit()
