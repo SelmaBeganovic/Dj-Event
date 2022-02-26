@@ -38,7 +38,6 @@ class EventService:
         if event is None:
             return None
 
-        print(event_data)
         event.name = event_data.get("name")
         event.venue = event_data.get("venue")
         event.slug = create_slug(event.name)
