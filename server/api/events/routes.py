@@ -1,7 +1,6 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, make_response, request
 from api.events.event_model import Event
-from api.user.user_model import User
-from api.events.event_service import EventService
+from api.events.event_service import EventService, DeleteEventException
 
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
@@ -31,18 +30,40 @@ def events():
         page=start, per_page=per_page, error_out=True
     ).items
 
-    return jsonify([evt.serialize for evt in all_events])
+    return make_response(jsonify([evt.serialize for evt in all_events])), 200
+
+
+@events_blueprint.route("/events", methods=["POST"])
+@jwt_required()
+def add_new_event():
+    current_user_id = get_jwt_identity()
+    event_data = request.get_json()
+
+    event = EventService.create_new_event(
+        event_data=event_data, user_id=current_user_id
+    )
+
+    return make_response(jsonify(event.serialize)), 200
+
+
+@events_blueprint.route("/events/<id>", methods=["DELETE"])
+@jwt_required()
+def delete_event(id):
+    try:
+        EventService.delete_event(id)
+        return make_response(jsonify({"message": "Event successfully deleted"})), 200
+    except DeleteEventException as e:
+        return make_response(jsonify({"message": "Not found"})), 404
 
 
 @events_blueprint.route("/events/count", methods=["GET"])
 def count():
-    return jsonify({"total": Event.query.count()})
+    return make_response(jsonify({"total": EventService.get_event_count()})), 200
 
 
 @events_blueprint.route("/events/me", methods=["GET"])
 @jwt_required()
 def user_events():
     current_user_id = get_jwt_identity()
-    user = User.query.get(current_user_id)
-    events = Event.query.all()
-    return jsonify([evt.serialize for evt in events])
+    user_events = EventService.get_events_for_user(current_user_id)
+    return jsonify([evt.serialize for evt in user_events])
