@@ -56,6 +56,33 @@ def delete_event(id):
         return make_response(jsonify({"message": "Not found"})), 404
 
 
+@events_blueprint.route("/events/<id>", methods=["GET"])
+@jwt_required()
+def get_event(id):
+    current_user_id = get_jwt_identity()
+    event = EventService.get_event_by_id_and_user_id(id, current_user_id)
+
+    if event is None:
+        return make_response(jsonify({"message": "Event not found"})), 404
+
+    return make_response(jsonify(event.serialize))
+
+
+@events_blueprint.route("/events/<id>", methods=["PUT"])
+@jwt_required()
+def update_event(id):
+    current_user_id = get_jwt_identity()
+    event_data = request.get_json()
+    event = EventService.update_event(
+        event_id=id, event_data=event_data, user_id=current_user_id
+    )
+
+    if event is None:
+        return make_response(jsonify({"message": "Not Authorized"})), 401
+
+    return make_response(jsonify(event.serialize))
+
+
 @events_blueprint.route("/events/count", methods=["GET"])
 def count():
     return make_response(jsonify({"total": EventService.get_event_count()})), 200
