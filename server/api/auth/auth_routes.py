@@ -1,8 +1,8 @@
 from flask import Blueprint, jsonify, request, make_response
-from flask_jwt_extended import create_access_token
 
-from api import db, bcrypt
-from api.user.user_model import User
+from api import bcrypt
+from api.user.user_service import UserService
+from api.auth.auth_service import AuthService
 
 auth_blueprint = Blueprint("auth", __name__)
 
@@ -11,12 +11,12 @@ auth_blueprint = Blueprint("auth", __name__)
 def login():
     user_data = request.get_json()
     try:
-        user = User.query.filter(User.email == user_data.get("email")).first()
+        user = UserService.get_user_by_email(user_data.get("email"))
 
         if user and bcrypt.check_password_hash(
             user.password, user_data.get("password")
         ):
-            access_token = create_access_token(identity=user.id)
+            access_token = AuthService.generate_token(user_id=user.id)
             return (
                 make_response(
                     jsonify(
@@ -58,21 +58,21 @@ def login():
 def register():
     user_data = request.get_json()
 
-    user = User.query.filter(User.email == user_data.get("email")).first()
+    user = UserService.get_user_by_email(user_data.get("email"))
+
     if not user:
         try:
-            user = User(
+            user = UserService.create_user(
                 username=user_data.get("username"),
                 email=user_data.get("email"),
                 password=user_data.get("password"),
             )
-            db.session.add(user)
-            db.session.commit()
-
+            access_token = AuthService.generate_token(user_id=user.id)
             response_object = {
                 "status": "success",
                 "message": "Successfully registered.",
-                "auth_token": "token",
+                "jwt": access_token,
+                "user": user.serialize(),
             }
             return jsonify(response_object)
         except Exception as e:
