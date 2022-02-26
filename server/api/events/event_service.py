@@ -33,8 +33,7 @@ class EventService:
 
     @classmethod
     def update_event(cls, event_id: int, event_data, user_id: int) -> Event:
-        event = cls.get_event_by_id_and_user_id(
-            event_id=event_id, user_id=user_id)
+        event = cls.get_event_by_id_and_user_id(event_id=event_id, user_id=user_id)
 
         if event is None:
             return None
@@ -78,7 +77,7 @@ class EventService:
             raise DeleteEventException(e)
 
     @staticmethod
-    def filter_events_by_term(term: str) -> Union[List[Event], List]:
+    def search_events_by_term(term: str) -> Union[List[Event], List]:
         search_term = f"%{term}%"
         return Event.query.filter(
             or_(

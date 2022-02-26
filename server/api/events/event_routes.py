@@ -16,21 +16,21 @@ def events():
         all_events_query = all_events_query.filter(Event.slug == slug)
 
     if sort_by := args.get("_sort", None):
-        fild, direction = sort_by.split(":")
+        field, direction = sort_by.split(":")
 
         if direction == "ASC":
-            all_events_query = all_events_query.order_by(Event.__dict__[fild].asc())
+            all_events_query = all_events_query.order_by(Event.__dict__[field].asc())
         elif direction == "DESC":
-            all_events_query = all_events_query.order_by(Event.__dict__[fild].desc())
+            all_events_query = all_events_query.order_by(Event.__dict__[field].desc())
 
     per_page = int(args.get("_limit", 5))
 
     start = int(args.get("_start", 1))
-    all_events = all_events_query.paginate(
+    events = all_events_query.paginate(
         page=start, per_page=per_page, error_out=True
     ).items
 
-    return make_response(jsonify([evt.serialize for evt in all_events])), 200
+    return make_response(jsonify([evt.serialize for evt in events])), 200
 
 
 @events_blueprint.route("/events", methods=["POST"])
@@ -98,5 +98,5 @@ def user_events():
 
 @events_blueprint.route("/events/search", methods=["GET"])
 def search_events():
-    events = EventService.filter_events_by_term(request.args.get("term"))
+    events = EventService.search_events_by_term(request.args.get("term"))
     return make_response(jsonify([evt.serialize for evt in events])), 200
