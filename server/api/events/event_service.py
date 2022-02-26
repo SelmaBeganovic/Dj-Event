@@ -1,6 +1,6 @@
 from datetime import datetime
-from turtle import st
-from typing import Dict, Optional, Union
+from sqlalchemy.sql.expression import or_
+from typing import Dict, List, Optional, Union
 
 from api import db
 from api.events.event_model import Event
@@ -33,7 +33,8 @@ class EventService:
 
     @classmethod
     def update_event(cls, event_id: int, event_data, user_id: int) -> Event:
-        event = cls.get_event_by_id_and_user_id(event_id=event_id, user_id=user_id)
+        event = cls.get_event_by_id_and_user_id(
+            event_id=event_id, user_id=user_id)
 
         if event is None:
             return None
@@ -75,3 +76,15 @@ class EventService:
             db.session.commit()
         except Exception as e:
             raise DeleteEventException(e)
+
+    @staticmethod
+    def filter_events_by_term(term: str) -> Union[List[Event], List]:
+        search_term = f"%{term}%"
+        return Event.query.filter(
+            or_(
+                Event.name.ilike(search_term),
+                Event.performers.ilike(search_term),
+                Event.description.ilike(search_term),
+                Event.venue.ilike(search_term),
+            )
+        ).all()

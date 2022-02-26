@@ -94,3 +94,9 @@ def user_events():
     current_user_id = get_jwt_identity()
     user_events = EventService.get_events_for_user(current_user_id)
     return jsonify([evt.serialize for evt in user_events])
+
+
+@events_blueprint.route("/events/search", methods=["GET"])
+def search_events():
+    events = EventService.filter_events_by_term(request.args.get("term"))
+    return make_response(jsonify([evt.serialize for evt in events])), 200

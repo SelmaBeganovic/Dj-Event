@@ -1,5 +1,5 @@
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Link from "next/link";
 import Search from "./Search";
 import AuthContext from "@/context/AuthContext";

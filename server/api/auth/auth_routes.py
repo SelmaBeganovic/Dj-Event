@@ -25,6 +25,7 @@ def login():
                             "message": "Successfully logged in.",
                             "jwt": access_token,
                             "statusCode": 200,
+                            "user": user.serialize(),
                         }
                     )
                 ),
