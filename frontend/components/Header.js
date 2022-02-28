@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react";
 import Link from "next/link";
 import Search from "./Search";
 import AuthContext from "@/context/AuthContext";
-import styles from "@/styles/Header.module.css";
+import styles from "@/styles/Header.module.scss";
 
 export default function Header() {
   const { user, logout } = useContext(AuthContext);

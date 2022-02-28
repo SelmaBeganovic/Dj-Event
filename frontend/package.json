@@ -17,6 +17,7 @@
     "react-geocode": "^0.2.3",
     "react-icons": "^4.2.0",
     "react-map-gl": "^6.1.12",
-    "react-toastify": "^7.0.3"
+    "react-toastify": "^7.0.3",
+    "sass": "^1.49.9"
   }
 }

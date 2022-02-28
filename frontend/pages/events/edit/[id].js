@@ -11,7 +11,7 @@ import Layout from "@/components/Layout";
 import Modal from "@/components/Modal";
 import ImageUpload from "@/components/ImageUpload";
 import { API_URL } from "@/config/index";
-import styles from "@/styles/Form.module.css";
+import styles from "@/styles/Form.module.scss";
 
 export default function EditEventPage({ evt, token }) {
   const [values, setValues] = useState({

@@ -1,6 +1,6 @@
-import Link from 'next/link'
-import { FaPencilAlt, FaTimes } from 'react-icons/fa'
-import styles from '@/styles/DashboardEvent.module.css'
+import Link from "next/link";
+import { FaPencilAlt, FaTimes } from "react-icons/fa";
+import styles from "@/styles/DashboardEvent.module.scss";
 
 export default function DashboardEvent({ evt, handleDelete }) {
   return (
@@ -16,12 +16,12 @@ export default function DashboardEvent({ evt, handleDelete }) {
         </a>
       </Link>
       <a
-        href='#'
+        href="#"
         className={styles.delete}
         onClick={() => handleDelete(evt.id)}
       >
         <FaTimes /> <span>Delete</span>
       </a>
     </div>
-  )
+  );
 }

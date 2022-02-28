@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Layout from "@/components/Layout";
 import { API_URL } from "@/config/index";
-import styles from "@/styles/Form.module.css";
+import styles from "@/styles/Form.module.scss";
 
 export default function AddEventPage({ token }) {
   const [values, setValues] = useState({

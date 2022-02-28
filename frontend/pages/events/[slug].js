@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import Layout from "@/components/Layout";
 import { API_URL } from "@/config/index";
-import styles from "@/styles/Event.module.css";
+import styles from "@/styles/Event.module.scss";
 
 export default function EventPage({ evt }) {
   return (
