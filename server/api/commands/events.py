@@ -9,6 +9,7 @@ def insert_events_into_database():
     from datetime import datetime
     from api.events.event_model import Event
     from api.user.user_model import User
+    from api.comment.comment_model import Comment
     from api import db
 
     events = [

@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, make_response, request
 from api.events.event_model import Event
 from api.events.event_service import EventService, DeleteEventException
-
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 events_blueprint = Blueprint("events", __name__)
